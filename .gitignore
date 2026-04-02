@@ -1,0 +1,74 @@
+# -----------------------------
+# Secrets / local config
+# -----------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.secrets
+
+# -----------------------------
+# Python
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# -----------------------------
+# JS / frontend tooling
+# -----------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# -----------------------------
+# IDE / editor
+# -----------------------------
+.vscode/
+.idea/
+*.iml
+
+# -----------------------------
+# OS files
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# Generated project outputs
+# -----------------------------
+las_intel_report_*.pdf
+las_intel_report_*.csv
+*.tmp
+*.log
+
+# Optional: uncomment if you do NOT want to publish LAS datasets
+# *.las

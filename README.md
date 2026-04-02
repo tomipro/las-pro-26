@@ -1,0 +1,86 @@
+# LAS Intel POC (Multi-Well)
+
+A localhost web app for oil & gas LAS analysis that goes beyond file reading:
+- Multi-well LAS ingestion
+- QC + physics-aware checks
+- Petrophysical screening (Vsh, Phi, Sw)
+- ML anomaly detection + electrofacies clustering
+- Self-Organizing Maps (SOM) for unsupervised facies topology mapping
+- AI technical interpretation (OpenAI optional; heuristic fallback included)
+- Cross-well comparison analytics:
+  - Well ranking
+  - Facies similarity matrix
+  - Pay-risk matrix
+  - SOM quality comparison
+- Demo mode for showcases with one-click CSV/PDF export
+
+## Tech Stack
+- Backend: FastAPI (Python)
+- Data/Science: lasio, pandas, numpy, scipy, scikit-learn
+- UI: Single-page web UI + Plotly charts
+
+## Project Structure
+- `app/main.py`: FastAPI app and API routes
+- `app/services/las_parser.py`: LAS parsing + curve mapping
+- `app/services/qc.py`: data quality and physics sanity checks
+- `app/services/petrophysics.py`: Vsh/Phi/Sw and potential pay intervals
+- `app/services/ml.py`: anomaly detection + electrofacies clustering
+- `app/services/ai.py`: AI interpretation (with fallback)
+- `app/services/analyzer.py`: orchestration and portfolio summary
+- `app/static/`: frontend assets
+- `LAS_Sample_API/`: provided sample LAS files
+
+## Run Locally
+1. Create and activate a virtual environment.
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Optional: enable AI interpretation with API key:
+   ```bash
+   cp .env.example .env
+   # set GEMINI_API_KEY in .env (preferred)
+   ```
+4. Start the app:
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+   Or run one command:
+   ```bash
+   ./run_local.sh
+   ```
+5. Open:
+   - `http://127.0.0.1:8000`
+
+## Demo Flow
+1. Open the web UI.
+2. Click `Launch Demo Mode`.
+3. After analysis completes, click:
+   - `Export PDF` for committee/company presentation output.
+   - `Export CSV` for data-driven follow-up.
+
+## Endpoints
+- `GET /api/health`
+- `POST /api/analyze-samples?with_ai=true|false`
+- `POST /api/analyze-files?with_ai=true|false` (multipart `files`)
+
+## Notes
+- ChatGPT Plus does not include API credits automatically. API usage is separate billing.
+- AI interpretation is Gemini-first (`GEMINI_API_KEY`, model default `gemini-2.5-pro`), with OpenAI as optional fallback.
+- Current petrophysical equations are screening-grade defaults; calibration with field/core data is required before operational use.
+
+## GitHub Upload Safety
+1. Keep real API keys only in local `.env` (already ignored by `.gitignore`).
+2. Use `.env.example` for placeholders only.
+3. Before pushing, verify:
+   ```bash
+   git status
+   git check-ignore -v .env .venv
+   ```
+4. If a secret was ever committed, rotate the key immediately and purge it from git history before publishing.
+
+## Suggested Next Iterations
+1. Add lithology/facies labels and supervised ML models.
+2. Add depth alignment and cross-well normalization workflow.
+3. Add user auth/workspace management and persisted project history.
+4. Add DLIS/CSV/core-data ingestion and cross-domain joins.
