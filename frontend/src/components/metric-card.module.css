@@ -1,0 +1,16 @@
+.card {
+  border: 1px solid rgba(166, 197, 217, 0.17);
+  border-radius: 12px;
+  background: rgba(10, 19, 29, 0.75);
+  padding: 0.75rem;
+}
+
+.label {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.value {
+  font-size: 1.2rem;
+  font-weight: 700;
+}

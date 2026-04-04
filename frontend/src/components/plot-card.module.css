@@ -1,0 +1,18 @@
+.card {
+  border: 1px solid rgba(166, 197, 217, 0.17);
+  border-radius: 14px;
+  background: var(--panel-strong);
+  padding: 0.75rem;
+}
+
+.title {
+  margin: 0 0 0.45rem;
+  font-size: 1rem;
+}
+
+.meta {
+  margin: 0 0 0.45rem;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.8rem;
+}

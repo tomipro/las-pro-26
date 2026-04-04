@@ -1,0 +1,350 @@
+.shell {
+  width: min(1400px, 95vw);
+  margin: 1.3rem auto 2.8rem;
+  display: grid;
+  gap: 0.95rem;
+}
+
+.demoMode {
+  filter: saturate(1.08);
+}
+
+.heroTitle {
+  margin: 0.35rem 0 0.55rem;
+  font-size: clamp(1.8rem, 3.4vw, 2.7rem);
+}
+
+.eyebrow {
+  margin: 0;
+  color: #4dd7f6;
+  font-family: "IBM Plex Mono", monospace;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.tight {
+  gap: 0.35rem;
+}
+
+.file {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px dashed rgba(166, 197, 217, 0.25);
+  border-radius: 10px;
+  padding: 0.52rem 0.7rem;
+  background: rgba(17, 30, 42, 0.5);
+}
+
+.toggle {
+  color: var(--muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+}
+
+.button {
+  border: none;
+  border-radius: 10px;
+  padding: 0.58rem 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #09131c;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.strong {
+  background: linear-gradient(90deg, #f39a4b, #f0c061);
+}
+
+.primary {
+  background: linear-gradient(90deg, #38b9d9, #68e4de);
+}
+
+.secondary {
+  background: linear-gradient(90deg, #54d1a0, #74dfb7);
+}
+
+.status,
+.meta {
+  margin: 0;
+  color: var(--muted);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.81rem;
+}
+
+.metricsGrid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.gridTwo {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+.chatBox {
+  min-height: 140px;
+  max-height: 360px;
+  overflow-y: auto;
+  display: grid;
+  gap: 0.55rem;
+  border: 1px solid rgba(166, 197, 217, 0.16);
+  border-radius: 12px;
+  background: rgba(10, 19, 29, 0.72);
+  padding: 0.7rem;
+}
+
+.bubble {
+  border: 1px solid rgba(166, 197, 217, 0.15);
+  border-radius: 12px;
+  padding: 0.58rem 0.72rem;
+  max-width: 90%;
+}
+
+.bubbleUser {
+  justify-self: end;
+  background: linear-gradient(120deg, rgba(47, 167, 200, 0.25), rgba(56, 185, 217, 0.1));
+}
+
+.bubbleAssistant {
+  justify-self: start;
+  background: rgba(84, 209, 160, 0.12);
+}
+
+.bubbleSystem {
+  justify-self: center;
+  color: var(--muted);
+  background: rgba(166, 197, 217, 0.08);
+}
+
+.chatInput {
+  width: 100%;
+  min-height: 90px;
+  resize: vertical;
+  border-radius: 12px;
+  border: 1px solid rgba(166, 197, 217, 0.24);
+  background: rgba(10, 19, 29, 0.82);
+  color: var(--ink);
+  padding: 0.62rem 0.7rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.83rem;
+}
+
+.field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.field input,
+.field select {
+  border-radius: 9px;
+  border: 1px solid rgba(166, 197, 217, 0.24);
+  background: rgba(10, 19, 29, 0.88);
+  color: var(--ink);
+  padding: 0.4rem 0.55rem;
+}
+
+.field input[type="range"] {
+  width: 180px;
+}
+
+.boundaryList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.boundaryItem {
+  border: 1px solid rgba(166, 197, 217, 0.16);
+  border-radius: 11px;
+  background: rgba(10, 19, 29, 0.72);
+  padding: 0.55rem 0.62rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.boundaryTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.boundaryTop button {
+  border: 1px solid rgba(166, 197, 217, 0.25);
+  border-radius: 8px;
+  background: rgba(10, 19, 29, 0.9);
+  color: var(--muted);
+  padding: 0.2rem 0.44rem;
+  cursor: pointer;
+}
+
+.boundaryManual {
+  border: 1px solid rgba(166, 197, 217, 0.16);
+  border-radius: 11px;
+  background: rgba(10, 19, 29, 0.72);
+  padding: 0.62rem;
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+}
+
+.skeletonBox {
+  border: 1px solid rgba(166, 197, 217, 0.16);
+  border-radius: 12px;
+  background: rgba(10, 19, 29, 0.72);
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.line {
+  height: 0.72rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(166, 197, 217, 0.12) 0%,
+    rgba(166, 197, 217, 0.34) 48%,
+    rgba(166, 197, 217, 0.12) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.lineShort {
+  width: 75%;
+}
+
+.markdown {
+  border: 1px solid rgba(166, 197, 217, 0.16);
+  border-radius: 12px;
+  background: rgba(10, 19, 29, 0.72);
+  padding: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.markdown p,
+.markdown li {
+  color: #e4f2fb;
+}
+
+.wellGrid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.wellCard {
+  border: 1px solid rgba(166, 197, 217, 0.16);
+  border-radius: 14px;
+  background: rgba(10, 19, 29, 0.65);
+  padding: 0.8rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.wellHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.wellTitle {
+  margin: 0;
+}
+
+.wellSubTitle {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.tagWrap {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  border: 1px solid rgba(166, 197, 217, 0.22);
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.74rem;
+  color: #d9ecfa;
+  background: rgba(13, 24, 34, 0.7);
+}
+
+.rawGrid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.errorList {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #fcb3b6;
+  display: grid;
+  gap: 0.25rem;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    margin: 1rem auto 2rem;
+  }
+
+  .row {
+    flex-wrap: wrap;
+  }
+
+  .gridTwo {
+    grid-template-columns: 1fr;
+  }
+
+  .rawGrid {
+    grid-template-columns: 1fr;
+  }
+}

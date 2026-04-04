@@ -1,0 +1,61 @@
+import type { Layout } from "plotly.js";
+
+export const PLOT_LAYOUT_BASE: Partial<Layout> = {
+  paper_bgcolor: "rgba(0,0,0,0)",
+  plot_bgcolor: "rgba(10,18,26,0.65)",
+  font: { color: "#d9ecfa", family: "Space Grotesk, sans-serif" },
+  margin: { l: 55, r: 25, t: 38, b: 45 },
+};
+
+export const SEQ_TRACT_COLOR: Record<string, string> = {
+  "Progradation - Regression": "rgba(211,74,74,0.20)",
+  "Retrogradation - Transgression": "rgba(71,121,216,0.20)",
+  "Steady Aggradation": "rgba(108,186,101,0.20)",
+  UNDEF: "rgba(136,136,136,0.15)",
+};
+
+export function hasNumericData(values: Array<number | null | undefined>): boolean {
+  return values.some((value) => typeof value === "number" && Number.isFinite(value));
+}
+
+export function numericValues(values: Array<number | null | undefined>): number[] {
+  return values.filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+}
+
+export function quantile(values: number[], q: number): number | null {
+  if (!values.length) return null;
+  const sorted = [...values].sort((a, b) => a - b);
+  const pos = (sorted.length - 1) * q;
+  const base = Math.floor(pos);
+  const rest = pos - base;
+  if (sorted[base + 1] !== undefined) {
+    return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+  }
+  return sorted[base];
+}
+
+export function axisRangeFromSeries(
+  series: Array<number | null | undefined>,
+  lowerQ = 0.02,
+  upperQ = 0.98
+): [number, number] | null {
+  const values = numericValues(series);
+  if (!values.length) return null;
+  const low = quantile(values, lowerQ);
+  const high = quantile(values, upperQ);
+  if (low === null || high === null) return null;
+  if (high <= low) return [low - 1, high + 1];
+  const pad = (high - low) * 0.04;
+  return [low - pad, high + pad];
+}
+
+export function normalizeSeries(values: Array<number | null | undefined>): Array<number | null> {
+  const filtered = numericValues(values);
+  if (!filtered.length) return values.map(() => null);
+  const min = Math.min(...filtered);
+  const max = Math.max(...filtered);
+  const den = max - min || 1;
+  return values.map((value) =>
+    typeof value === "number" && Number.isFinite(value) ? (value - min) / den : null
+  );
+}

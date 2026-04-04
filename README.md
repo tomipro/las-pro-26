@@ -15,9 +15,9 @@ A localhost web app for oil & gas LAS analysis that goes beyond file reading:
 - Demo mode for showcases with one-click CSV/PDF export
 
 ## Tech Stack
-- Backend: FastAPI (Python)
+- Backend API: FastAPI (Python)
 - Data/Science: lasio, pandas, numpy, scipy, scikit-learn
-- UI: Single-page web UI + Plotly charts
+- Frontend (modern): React + TypeScript + Vite + TanStack Query + Zustand + Plotly
 
 ## Project Structure
 - `app/main.py`: FastAPI app and API routes
@@ -25,12 +25,14 @@ A localhost web app for oil & gas LAS analysis that goes beyond file reading:
 - `app/services/qc.py`: data quality and physics sanity checks
 - `app/services/petrophysics.py`: Vsh/Phi/Sw and potential pay intervals
 - `app/services/ml.py`: anomaly detection + electrofacies clustering
+- `app/services/sequence.py`: sequence stratigraphy auto-picks + correlation
 - `app/services/ai.py`: AI interpretation (with fallback)
 - `app/services/analyzer.py`: orchestration and portfolio summary
-- `app/static/`: frontend assets
+- `frontend/`: React TypeScript frontend
+- `app/static/`: legacy static frontend (kept for fallback)
 - `LAS_Sample_API/`: provided sample LAS files
 
-## Run Locally
+## Run Locally (Modern Frontend)
 1. Create and activate a virtual environment.
 2. Install dependencies:
    ```bash
@@ -41,16 +43,27 @@ A localhost web app for oil & gas LAS analysis that goes beyond file reading:
    cp .env.example .env
    # set GEMINI_API_KEY in .env (preferred)
    ```
-4. Start the app:
+4. Start backend API:
    ```bash
    uvicorn app.main:app --reload
    ```
-   Or run one command:
+5. In a second terminal, start frontend:
    ```bash
-   ./run_local.sh
+   cd frontend
+   npm install
+   cp .env.example .env
+   npm run dev
    ```
-5. Open:
-   - `http://127.0.0.1:8000`
+6. Open:
+   - Frontend: `http://127.0.0.1:5173`
+   - Backend API docs: `http://127.0.0.1:8000/docs`
+
+## Run Locally (Legacy Fallback)
+If needed, legacy static UI is still available:
+```bash
+./run_local.sh
+```
+Then open `http://127.0.0.1:8000`.
 
 ## Demo Flow
 1. Open the web UI.

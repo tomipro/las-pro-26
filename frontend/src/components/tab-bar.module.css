@@ -1,0 +1,20 @@
+.tabs {
+  display: flex;
+  gap: 0.55rem;
+}
+
+.tab {
+  border: 1px solid rgba(166, 197, 217, 0.24);
+  border-radius: 10px;
+  background: rgba(10, 19, 29, 0.72);
+  color: var(--muted);
+  font-weight: 700;
+  padding: 0.52rem 0.78rem;
+  cursor: pointer;
+}
+
+.active {
+  color: #08121a;
+  border-color: transparent;
+  background: linear-gradient(90deg, #38b9d9, #68e4de);
+}
