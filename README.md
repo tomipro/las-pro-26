@@ -65,36 +65,6 @@ If needed, legacy static UI is still available:
 ```
 Then open `http://127.0.0.1:8000`.
 
-## Deploy on Render
-This repo includes all required deploy files:
-- `Dockerfile`
-- `.dockerignore`
-- `render.yaml` (Blueprint)
-
-### Option A: Blueprint (recommended)
-1. Push this repo to GitHub.
-2. In Render, click `New` -> `Blueprint`.
-3. Select this repo/branch.
-4. Render will detect `render.yaml` and create `las-intel-poc`.
-5. Set secret env var:
-   - `GEMINI_API_KEY` (required for AI features)
-6. Deploy.
-
-### Option B: Manual Web Service
-1. In Render, click `New` -> `Web Service`.
-2. Connect this repo.
-3. Set:
-   - Runtime: `Docker`
-   - Health check path: `/api/health`
-4. Add env vars:
-   - `GEMINI_API_KEY` (required)
-   - `GEMINI_MODEL=gemini-3.1-flash-lite-preview` (optional override)
-5. Deploy.
-
-After deploy:
-- App: `https://<your-service>.onrender.com`
-- Health: `https://<your-service>.onrender.com/api/health`
-
 ## Demo Flow
 1. Open the web UI.
 2. Click `Launch Demo Mode`.
