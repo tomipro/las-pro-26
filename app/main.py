@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
@@ -17,6 +17,9 @@ from .services.ai import generate_ai_interpretation, generate_data_chat_answer
 BASE_DIR = Path(__file__).resolve().parent.parent
 SAMPLE_DIR = BASE_DIR / "LAS_Sample_API"
 STATIC_DIR = Path(__file__).resolve().parent / "static"
+FRONTEND_DIST_DIR = BASE_DIR / "frontend" / "dist"
+FRONTEND_INDEX_FILE = FRONTEND_DIST_DIR / "index.html"
+FRONTEND_ASSETS_DIR = FRONTEND_DIST_DIR / "assets"
 
 load_dotenv(BASE_DIR / ".env")
 
@@ -34,6 +37,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+if FRONTEND_ASSETS_DIR.exists():
+    app.mount("/assets", StaticFiles(directory=str(FRONTEND_ASSETS_DIR)), name="frontend-assets")
 _ANALYSIS_STORE: dict[str, dict[str, Any]] = {}
 
 
@@ -76,7 +81,17 @@ def _get_analysis_or_404(analysis_id: str) -> dict[str, Any]:
 
 @app.get("/")
 def index() -> FileResponse:
+    if FRONTEND_INDEX_FILE.exists():
+        return FileResponse(FRONTEND_INDEX_FILE)
     return FileResponse(STATIC_DIR / "index.html")
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon() -> Response:
+    for candidate in (FRONTEND_DIST_DIR / "favicon.ico", STATIC_DIR / "favicon.ico"):
+        if candidate.exists():
+            return FileResponse(candidate)
+    return Response(status_code=204)
 
 
 @app.get("/api/health")

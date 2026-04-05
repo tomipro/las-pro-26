@@ -1,8 +1,16 @@
 .shell {
-  width: min(1400px, 95vw);
+  width: min(1400px, calc(100% - 2rem));
   margin: 1.3rem auto 2.8rem;
   display: grid;
   gap: 0.95rem;
+  transition: margin 180ms ease, width 180ms ease;
+}
+
+.shellDocked {
+  width: auto;
+  max-width: none;
+  margin-left: 1rem;
+  margin-right: calc(min(var(--assistant-width, 420px), 92vw) + 1rem);
 }
 
 .demoMode {
@@ -334,6 +342,13 @@
 @media (max-width: 760px) {
   .shell {
     margin: 1rem auto 2rem;
+  }
+
+  .shellDocked {
+    width: min(1400px, calc(100% - 2rem));
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .row {

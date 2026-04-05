@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import Plot from "react-plotly.js";
 
 import styles from "./app.module.css";
+import { AssistantDrawer } from "./components/assistant-drawer";
 import { EmptyPlot } from "./components/empty-plot";
 import { MetricCard } from "./components/metric-card";
 import { PlotCard } from "./components/plot-card";
@@ -443,6 +444,8 @@ function SequenceCorrelationChart({ correlation }: { correlation: SequenceCorrel
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [demoMode, setDemoMode] = useState(false);
+  const [assistantOpen, setAssistantOpen] = useState(false);
+  const [assistantWidth, setAssistantWidth] = useState(420);
   const [exportingPdf, setExportingPdf] = useState(false);
   const [sequenceAiLoading, setSequenceAiLoading] = useState(false);
   const [sequenceAiText, setSequenceAiText] = useState("Run analysis and click AI Autocomplete Suggestions.");
@@ -465,6 +468,17 @@ export default function App() {
     setSequenceAiMeta("Source: N/A");
     setActiveTab("overview");
   }, [analysis.payload?.analysis_id]);
+
+  useEffect(() => {
+    if (!assistantOpen) return;
+    function onEsc(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setAssistantOpen(false);
+      }
+    }
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
+  }, [assistantOpen]);
 
   const selectedBoundaries = (sequence.boundaries || []) as SequenceBoundaryRow[];
 
@@ -520,6 +534,10 @@ export default function App() {
     }
   }
 
+  async function onSendPrompt(prompt: string) {
+    await chat.sendMessageWithText(prompt);
+  }
+
   function onExportCsv() {
     if (!analysis.payload) {
       analysis.setStatus("No analysis results available for export.");
@@ -550,7 +568,12 @@ export default function App() {
   const payload = analysis.payload;
 
   return (
-    <main className={`${styles.shell} ${demoMode ? styles.demoMode : ""}`}>
+    <main
+      className={`${styles.shell} ${demoMode ? styles.demoMode : ""} ${
+        assistantOpen ? styles.shellDocked : ""
+      }`}
+      style={{ "--assistant-width": `${assistantWidth}px` } as CSSProperties}
+    >
       <SectionPanel>
         <p className={styles.eyebrow}>LAS INTELLIGENCE PLATFORM</p>
         <h1 className={styles.heroTitle}>Modern Multi-Well Interpretation Workbench</h1>
@@ -845,46 +868,6 @@ export default function App() {
             {analysis.aiLoading ? <SkeletonText /> : <MarkdownView text={analysis.aiText || payload.ai_interpretation || "No AI interpretation."} />}
           </SectionPanel>
 
-          <SectionPanel title="Chat With Data + AI">
-            <div className={styles.chatBox}>
-              {chat.messages.map((message, idx) => (
-                <div
-                  key={`${message.role}-${idx}`}
-                  className={`${styles.bubble} ${
-                    message.role === "user"
-                      ? styles.bubbleUser
-                      : message.role === "system"
-                        ? styles.bubbleSystem
-                        : styles.bubbleAssistant
-                  }`}
-                >
-                  <div dangerouslySetInnerHTML={{ __html: renderMarkdown(message.content) }} />
-                </div>
-              ))}
-            </div>
-            <div className={styles.row}>
-              <textarea
-                className={styles.chatInput}
-                rows={3}
-                value={chat.input}
-                onChange={(event) => chat.setInput(event.target.value)}
-                placeholder="Ask about sequence picks, ranking, facies similarity, risk, or anomalies..."
-              />
-            </div>
-            <div className={styles.row}>
-              <button
-                className={`${styles.button} ${styles.primary}`}
-                onClick={() => void chat.sendMessage()}
-                disabled={chat.isPending || !payload.analysis_id}
-              >
-                {chat.isPending ? "Sending..." : "Send"}
-              </button>
-              <button className={`${styles.button} ${styles.secondary}`} onClick={chat.clear}>
-                Clear Chat
-              </button>
-            </div>
-          </SectionPanel>
-
           <SectionPanel title="Per-Well Diagnostic Workspace">
             <div className={styles.wellGrid}>
               {payload.wells?.map((well) => (
@@ -1080,6 +1063,28 @@ export default function App() {
           </SectionPanel>
         </>
       ) : null}
+
+      <AssistantDrawer
+        open={assistantOpen}
+        onToggle={() => setAssistantOpen((prev) => !prev)}
+        analysisId={analysis.payload?.analysis_id || null}
+        aiEnabled={analysis.aiEnabled}
+        aiMeta={analysis.aiMeta}
+        aiInterpretation={analysis.aiText || analysis.payload?.ai_interpretation || "No AI interpretation."}
+        aiLoading={analysis.aiLoading}
+        messages={chat.messages}
+        input={chat.input}
+        setInput={chat.setInput}
+        isPending={chat.isPending}
+        onSend={() => {
+          void chat.sendMessage();
+        }}
+        onSendPrompt={(prompt) => {
+          void onSendPrompt(prompt);
+        }}
+        onClear={chat.clear}
+        onWidthChange={setAssistantWidth}
+      />
     </main>
   );
 }

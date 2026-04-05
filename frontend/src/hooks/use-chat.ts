@@ -32,15 +32,17 @@ export function useChat(options: UseChatOptions) {
     setMessages([]);
   }
 
-  async function sendMessage() {
+  async function sendMessageWithText(rawQuestion?: string) {
     const analysisId = options.getAnalysisId();
     if (!analysisId || isPending) return;
-    const question = input.trim();
+    const question = (rawQuestion ?? input).trim();
     if (!question) return;
 
     const previous = [...messages];
     setMessages((old) => [...old, { role: "user", content: question }]);
-    setInput("");
+    if (rawQuestion === undefined) {
+      setInput("");
+    }
     setIsPending(true);
 
     try {
@@ -67,7 +69,8 @@ export function useChat(options: UseChatOptions) {
     setInput,
     isPending,
     resetForAnalysis,
-    sendMessage,
+    sendMessage: () => sendMessageWithText(),
+    sendMessageWithText,
     clear: () => setMessages([]),
   };
 }
